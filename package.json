@@ -1,21 +1,28 @@
 {
   "name": "rpc-tests",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Test suite for the ethreum node RPC interface.",
   "author": "Fabian Vogelsteller <fabian@frozeman.de>",
   "main": "index",
-  "engines": {
-    "node": ">= 0.4.x < 0.8.0"
-  },
   "scripts": {
-    "test": "make test"
+    "test": "jest"
   },
-  "dependencies": {},
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
   "devDependencies": {
-    "bignumber.js": "^2.0.3",
-    "chai": "*",
-    "mocha": ">= 0.11.0",
-    "underscore": "*",
-    "xmlhttprequest": "*"
+    "@babel/preset-env": "7.21.5",
+    "@babel/preset-typescript": "7.21.5",
+    "@jest/globals": "29.5.0",
+    "@types/node": "20.1.1",
+    "babel-jest": "29.5.0",
+    "jest": "29.5.0",
+    "ts-jest": "29.1.0",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
   }
 }
