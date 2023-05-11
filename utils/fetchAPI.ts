@@ -1,20 +1,19 @@
 import axios from "axios";
 import urlProvider from "./urlProvider";
-
-type Options = {
-  [ key: string ]: string | number;
-}
+import { JSONRPC, Options, } from "./types";
 
 async function fetchAPI({ 
   httpMethod = "post",
   options,
+  url = urlProvider.rpcUrl,
 }: {
-  httpMethod: string;
+  httpMethod?: string;
   options: Options;
-}): Promise<object> {
+  url?: string;
+}): Promise<JSONRPC> {
   try {
     const response = await axios[httpMethod](
-      urlProvider.rpcUrl,
+      url,
       { ...options, }
     );
     return response.data;
