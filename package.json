@@ -1,7 +1,7 @@
 {
   "name": "rpc-tests",
   "version": "1.0.0",
-  "description": "Test suite for the ethreum node RPC interface.",
+  "description": "Test suite for the Gobi node RPC interface.",
   "author": "Fabian Vogelsteller <fabian@frozeman.de>",
   "main": "index",
   "scripts": {
