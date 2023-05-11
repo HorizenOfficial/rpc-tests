@@ -10,7 +10,7 @@ type JSONRPC = {
 }
 
 type Options = {
-  [ key: string ]: string | number | string[];
+  [ key: string ]: any;
 }
 
 export type {
