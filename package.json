@@ -8,7 +8,6 @@
     "test": "jest"
   },
   "jest": {
-    "testTimeout": 15000,
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     }
