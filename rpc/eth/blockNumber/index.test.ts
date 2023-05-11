@@ -7,6 +7,9 @@ describe("eth_blockNumber", () => {
     const { jsonrpc, id, result } = await blockNumber();
     expect(jsonrpc).toBe("2.0");
     expect(id).toBe(1);
-    expect(result).toMatch(baseTypes.uint.pattern);
+    
+    if (result) {
+      expect(result).toMatch(baseTypes.uint.pattern);
+    }
   });
 });

@@ -1,7 +1,7 @@
 type JSONRPC = {
   jsonrpc: string;
   id: number;
-  result: string;
+  result?: string;
   error?: {
     code: number;
     message: string;
