@@ -1,16 +1,13 @@
 import fetchAPI from "../../../utils/fetchAPI";
+import { JSONRPC } from "../../../utils/types";
 
-async function blockNumber() : Promise<any> {
-  const data = await fetchAPI({
-    httpMethod: "post",
+const blockNumber = async ():
+  Promise<JSONRPC> => await fetchAPI({
     options: {
       id: 1,
       jsonrpc: "2.0",
       method: "eth_blockNumber",
     },
   });
-
-  return data;
-}
 
 export default blockNumber;
