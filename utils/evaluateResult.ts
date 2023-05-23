@@ -33,7 +33,6 @@ function type(value) {
 }
 
 function testAssertion(result) {
-  console.log(result)
   expect(
     baseTypePatterns.some(baseTypePattern => result
       .toString()
