@@ -1,11 +1,12 @@
 import fetchAPI from "../../../utils/fetchAPI";
 import { JSONRPC } from "../../../utils/types";
+import fixtures from "../../../fixtures";
 
 const eth_call = async ():
   Promise<JSONRPC> => await fetchAPI({
     options: {
-      id: 1,
-      jsonrpc: "2.0",
+      id: fixtures.id,
+      jsonrpc: fixtures.jsonrpc,
       method: "eth_call",
       params:[{
         from: "0xe33693548d5849845c9915342ac8ad932a4b2f36",

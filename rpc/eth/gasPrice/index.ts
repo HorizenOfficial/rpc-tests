@@ -1,12 +1,14 @@
 import fetchAPI from "../../../utils/fetchAPI";
 import { JSONRPC } from "../../../utils/types";
+import fixtures from "../../../fixtures";
 
 const eth_gasPrice = async ():
   Promise<JSONRPC> => await fetchAPI({
     options: {
-      id: 1,
-      jsonrpc: "2.0",
+      id: fixtures.id,
+      jsonrpc: fixtures.jsonrpc,
       method: "eth_gasPrice",
+      params: [],
     },
   });
 
