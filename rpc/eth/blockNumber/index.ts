@@ -1,7 +1,7 @@
 import fetchAPI from "../../../utils/fetchAPI";
 import { JSONRPC } from "../../../utils/types";
 
-const blockNumber = async ():
+const eth_blockNumber = async ():
   Promise<JSONRPC> => await fetchAPI({
     options: {
       id: 1,
@@ -10,4 +10,4 @@ const blockNumber = async ():
     },
   });
 
-export default blockNumber;
+export default eth_blockNumber;

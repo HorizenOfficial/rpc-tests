@@ -1,7 +1,7 @@
 import fetchAPI from "../../../utils/fetchAPI";
 import { JSONRPC } from "../../../utils/types";
 
-const getBalance = async ():
+const eth_getBalance = async ():
   Promise<JSONRPC> => await fetchAPI({
     options: {
       id: 1,
@@ -11,4 +11,4 @@ const getBalance = async ():
     },
   });
 
-export default getBalance;
+export default eth_getBalance;

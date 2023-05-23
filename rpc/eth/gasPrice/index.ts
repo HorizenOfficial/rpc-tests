@@ -1,7 +1,7 @@
 import fetchAPI from "../../../utils/fetchAPI";
 import { JSONRPC } from "../../../utils/types";
 
-const gasPrice = async ():
+const eth_gasPrice = async ():
   Promise<JSONRPC> => await fetchAPI({
     options: {
       id: 1,
@@ -10,4 +10,4 @@ const gasPrice = async ():
     },
   });
 
-export default gasPrice;
+export default eth_gasPrice;
