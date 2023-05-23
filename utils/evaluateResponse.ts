@@ -33,12 +33,23 @@ function type(value) {
 }
 
 function testAssertion(result) {
-  expect(
-    baseTypePatterns.some(baseTypePattern => result
-      .toString()
-      .match(baseTypePattern)
-    )
-  ).toEqual(true);
+  console.log(result)
+  
+  switch(result) {
+    case null:
+      return expect(result).toBe(null);
+
+    case undefined:
+      return expect(result).toBe(undefined);
+
+    default:
+      return expect(
+        baseTypePatterns.some(baseTypePattern => result
+          .toString()
+          .match(baseTypePattern)
+        )
+      ).toEqual(true);
+  }
 }
 
 function iterateObjectProperties(result) {
@@ -65,17 +76,21 @@ function reduceResult(result) {
       return iterateObjectProperties(result);
 
     case "string":
+    case "null":
+    case "undefined":
       return testAssertion(result);
 
     default:
-      throw new Error(`unsupported type detected. expected "string", "object", or "array" type but encountered: "${type(result)}".`);
+      throw new Error(
+        `unsupported type detected. expected "string", "object", or "array" type but encountered: "${type(result)}".`
+      );
   }
 }
 
 function evaluateResponse(response) {
   const { jsonrpc, id, result, error } = response;
   if (error) {
-    throw new Error(`Error: ${JSON.stringify(error)}`);
+    throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
   }
 
   expect(jsonrpc).toBe(fixtures.jsonrpc);

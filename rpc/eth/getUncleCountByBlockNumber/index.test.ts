@@ -1,9 +1,9 @@
 import { describe } from "@jest/globals";
-import eth_getBlockTransactionCountByNumber from "./index";
+import eth_getUncleCountByBlockNumber from "./index";
 import evaluateResponse from "../../../utils/evaluateResponse";
 
-describe("eth_getBlockTransactionCountByNumber", () => {
+describe("eth_getUncleCountByBlockNumber", () => {
   it("Returns the number of transactions in a block matching the given block number.", async () => {
-    evaluateResponse(await eth_getBlockTransactionCountByNumber());
+    evaluateResponse(await eth_getUncleCountByBlockNumber());
   });
 });
