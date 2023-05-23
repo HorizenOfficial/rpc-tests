@@ -32,37 +32,69 @@ function type(value) {
   return baseType;
 }
 
-function testAssertion(result) {
+function testString(result) {
   console.log(result)
-  
-  switch(result) {
-    case null:
-      return expect(result).toBe(null);
+  expect(
+    baseTypePatterns.some(baseTypePattern => 
+      result
+        .match(baseTypePattern)
+    )
+  ).toEqual(true);
+}
 
-    case undefined:
-      return expect(result).toBe(undefined);
+function testNumber(result) {
+  expect(type(result)).toBe("number");
+}
 
-    default:
-      return expect(
-        baseTypePatterns.some(baseTypePattern => result
-          .toString()
-          .match(baseTypePattern)
-        )
-      ).toEqual(true);
-  }
+function testNull(result) {
+  expect(type(result)).toBe("null");
+}
+
+function testUndefined(result) {
+  expect(type(result)).toBe("undefined");
+}
+
+function testBoolean(result) {
+  expect(type(result)).toBe("boolean");
+}
+
+function unsupportedType(result) {
+  throw new Error(
+    `Unsupported type detected. Expected "string", "number", "null", "undefined", "boolean", "object", or "array" but encountered: "${type(result)}".`
+  );
 }
 
 function iterateObjectProperties(result) {
   for (const key in result) {
     const value = result[key];
+
     switch(type(value)) {
       case "Array":
       case "Object":
         return reduceResult(value);
 
       case "string":
+        testString(value);
+        break;
+
+      case "number":
+        testNumber(value);
+        break;
+
+      case "null":
+        testNull(value);
+        break;
+
+      case "undefined":
+        testUndefined(value);
+        break;
+
+      case "boolean":
+        testBoolean(value);
+        break;
+
       default:
-        testAssertion(value);
+        unsupportedType(value);
     }
   }
 }
@@ -74,16 +106,29 @@ function reduceResult(result) {
 
     case "Object":
       return iterateObjectProperties(result);
-
+    
     case "string":
+      testString(result);
+      break;
+
+    case "number":
+      testNumber(result);
+      break;
+
     case "null":
+      testNull(result);
+      break;
+
     case "undefined":
-      return testAssertion(result);
+      testUndefined(result);
+      break;
+
+    case "boolean":
+      testBoolean(result);
+      break;
 
     default:
-      throw new Error(
-        `unsupported type detected. expected "string", "object", or "array" type but encountered: "${type(result)}".`
-      );
+      unsupportedType(result);
   }
 }
 
