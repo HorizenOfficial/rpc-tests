@@ -1,6 +1,6 @@
 import { describe, expect, } from "@jest/globals";
 import gasPrice from "./index";
-import baseTypes from "../../../utils/baseTypes";
+import evaluateResult from "../../../utils/evaluateResult";
 
 describe("eth_gasPrice", () => {
   it("returns the current price per gas in wei", async () => {
@@ -8,6 +8,6 @@ describe("eth_gasPrice", () => {
     
     expect(jsonrpc).toBe("2.0");
     expect(id).toBe(1);
-    expect(result).toMatch(baseTypes.uint.pattern);
+    evaluateResult(result);
   });
 });
