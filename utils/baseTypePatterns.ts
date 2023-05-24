@@ -1,5 +1,5 @@
 const baseTypePatterns = [
-   // address - hex encoded address
+  // address - hex encoded address
   /^0x[0-9,a-f,A-F]{40}$/,
 
   // byte - hex encoded byte
