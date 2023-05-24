@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals";
-import baseTypePatterns from "./baseTypes";
+import baseTypePatterns from "./baseTypePatterns";
 import fixtures from "../fixtures";
 
 function type(value) {
@@ -32,115 +32,82 @@ function type(value) {
   return baseType;
 }
 
-function testString(result) {
-  console.log(result)
-  expect(
-    baseTypePatterns.some(baseTypePattern => 
-      result
+function testString(value) {
+  const patternFound = baseTypePatterns
+    .find(baseTypePattern => 
+      value
         .match(baseTypePattern)
-    )
-  ).toEqual(true);
+    );
+
+  console.log(`Value to test: ${value}\nPattern found: :${patternFound}`)
+  
+  expect(patternFound).toBeDefined();
 }
 
-function testNumber(result) {
-  expect(type(result)).toBe("number");
+function testNumber(value) {
+  expect(value).not.toBeNaN();
 }
 
-function testNull(result) {
-  expect(type(result)).toBe("null");
+function testNull(value) {
+  expect(value).toBeNull();
 }
 
-function testUndefined(result) {
-  expect(type(result)).toBe("undefined");
+function testBoolean(type) {
+  expect(type).toBe("boolean");
 }
 
-function testBoolean(result) {
-  expect(type(result)).toBe("boolean");
-}
-
-function unsupportedType(result) {
+function unsupportedType(type) {
   throw new Error(
-    `Unsupported type detected. Expected "string", "number", "null", "undefined", "boolean", "object", or "array" but encountered: "${type(result)}".`
+    `Unsupported type. Expected "string", "number", "null", "undefined", "boolean", "object", or "array" but received: "${type.toLowerCase()}".`
   );
 }
 
-function iterateObjectProperties(result) {
-  for (const key in result) {
-    const value = result[key];
-
-    switch(type(value)) {
-      case "Array":
-      case "Object":
-        return reduceResult(value);
-
-      case "string":
-        testString(value);
-        break;
-
-      case "number":
-        testNumber(value);
-        break;
-
-      case "null":
-        testNull(value);
-        break;
-
-      case "undefined":
-        testUndefined(value);
-        break;
-
-      case "boolean":
-        testBoolean(value);
-        break;
-
-      default:
-        unsupportedType(value);
-    }
+function iterateObjectProperties(value) {
+  for (const key in value) {
+    reduceValue(value[key])
   }
 }
 
-function reduceResult(result) {
-  switch(type(result)) {
+function reduceValue(value) {
+  switch(type(value)) {
     case "Array":
-      return result.forEach(innerResult => reduceResult(innerResult));
+      value.forEach(item => reduceValue(item));
+      break;
 
     case "Object":
-      return iterateObjectProperties(result);
+      iterateObjectProperties(value);
+      break;
     
     case "string":
-      testString(result);
+      testString(value);
       break;
 
     case "number":
-      testNumber(result);
+      testNumber(value);
       break;
 
     case "null":
-      testNull(result);
-      break;
-
-    case "undefined":
-      testUndefined(result);
+      testNull(value);
       break;
 
     case "boolean":
-      testBoolean(result);
+      testBoolean(type(value));
       break;
 
     default:
-      unsupportedType(result);
+      unsupportedType(type(value));
   }
 }
 
 function evaluateResponse(response) {
-  const { jsonrpc, id, result, error } = response;
+  const { jsonrpc, id, result: value, error } = response;
   if (error) {
     throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
   }
 
   expect(jsonrpc).toBe(fixtures.jsonrpc);
   expect(id).toBe(fixtures.id);
-  reduceResult(result);
+  reduceValue(value);
 }
 
 export default evaluateResponse;
