@@ -17,10 +17,7 @@ async function getSchema(schema) {
 async function getBasePattern(name) {
   const baseTypes = await getSchema("base-types");
   const baseType = baseTypes[name];
-
-  if(baseType) {
-    return new RegExp(baseType.pattern);
-  }
+  if (baseType) return new RegExp(baseType.pattern);
 
   const mainTypes = await getSchema(name.toLowerCase());
   const mainType = mainTypes[name];
