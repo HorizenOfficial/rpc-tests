@@ -27,7 +27,7 @@ async function getBasePattern(name) {
 async function iterateObjectPattern(pattern, properties) {
   for (const key in properties) {
     const propertyValue = properties[key];
-    const { items, type } = propertyValue;
+    const { items, anyOf } = propertyValue;
 
     // object.string
     if (propertyValue.$ref) {
@@ -45,6 +45,11 @@ async function iterateObjectPattern(pattern, properties) {
 
       pattern[key] = [await getBasePattern(getType(propertyValue.items.$ref))];
       continue;
+    }
+
+    // object.array[any]
+    if (anyOf) {
+      
     }
   }
 

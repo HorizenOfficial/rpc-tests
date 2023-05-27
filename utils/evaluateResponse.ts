@@ -109,7 +109,7 @@ function reduceValue(value, pattern) {
 function evaluateResponse({ response, pattern }) {
   const { jsonrpc, id, result: value, error } = response;
   if (error) throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
-  
+
   expect(jsonrpc).toBe(fixtures.jsonrpc);
   expect(id).toBe(fixtures.id);
   reduceValue(value, pattern);
