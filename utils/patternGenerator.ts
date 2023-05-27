@@ -2,8 +2,7 @@ import parseYaml from "../utils/parseYaml";
 
 function getType($ref) {
   const $refDirName = $ref.split("/");
-  const baseType = $refDirName[$refDirName.length - 1];
-  return baseType;
+  return $refDirName[$refDirName.length - 1];
 }
 
 async function getRpcDefinition(rpcDefinitionPath, rpcName) {
@@ -18,14 +17,14 @@ async function getSchema(schema) {
 async function getBasePattern(name) {
   const baseTypes = await getSchema("base-types");
   const baseType = baseTypes[name];
+
   if(baseType) {
     return new RegExp(baseType.pattern);
   }
 
   const mainTypes = await getSchema(name.toLowerCase());
   const mainType = mainTypes[name];
-  const mainTypePattern = await iterateObjectPattern({}, mainType.properties);
-  return mainTypePattern;
+  return await iterateObjectPattern({}, mainType.properties);
 }
 
 async function iterateObjectPattern(pattern, properties) {
