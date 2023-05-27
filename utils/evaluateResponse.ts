@@ -1,5 +1,4 @@
 import { expect } from "@jest/globals";
-import baseTypePatterns from "./baseTypePatterns";
 import fixtures from "../fixtures";
 
 // A robust version of the "typeof" operator
@@ -42,16 +41,14 @@ function type(value) {
   return baseType;
 }
 
-function testString(value) {
-  const patternFound = baseTypePatterns
-    .find(baseTypePattern => 
-      value
-        .match(baseTypePattern)
-    );
-
-  console.log(`Value to test: ${value}\nPattern found: ${patternFound}`)
+function testString(value, pattern) {
+  console.log(`value:   ${value}\npattern: ${pattern}`)
   
-  expect(patternFound).toBeDefined();
+  // for a property that exists outside of the schema definition
+  // and does not have a pattern to use for assertion, test for null
+  pattern
+    ? expect(value).toMatch(pattern)
+    : testNull(pattern);
 }
 
 function testNumber(value) {
@@ -72,24 +69,24 @@ function unsupportedType(type) {
   );
 }
 
-function iterateObjectProperties(value) {
+function iterateObjectProperties(value, pattern) {
   for (const key in value) {
-    reduceValue(value[key])
+    reduceValue(value[key], (pattern && pattern[key]) || null);
   }
 }
 
-function reduceValue(value) {
+function reduceValue(value, pattern) {
   switch(type(value)) {
     case "Array":
-      value.forEach(item => reduceValue(item));
+      value.forEach(item => reduceValue(item, (pattern && pattern[0]) || null));
       break;
 
     case "Object":
-      iterateObjectProperties(value);
+      iterateObjectProperties(value, pattern);
       break;
     
     case "string":
-      testString(value);
+      testString(value, pattern);
       break;
 
     case "number":
@@ -109,15 +106,17 @@ function reduceValue(value) {
   }
 }
 
-function evaluateResponse(response) {
+function evaluateResponse({ response, pattern }) {
   const { jsonrpc, id, result: value, error } = response;
   if (error) {
     throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
   }
 
+  console.log("response:", response)
+  console.log("pattern:", pattern)
   expect(jsonrpc).toBe(fixtures.jsonrpc);
   expect(id).toBe(fixtures.id);
-  reduceValue(value);
+  reduceValue(value, pattern);
 }
 
 export default evaluateResponse;
