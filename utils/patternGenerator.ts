@@ -44,14 +44,18 @@ function getPattern(type) {
   const { properties } = schemaType;
   if (properties) return iterateObjectPattern({}, properties);
 
-  const { allOf } = schemaType;
-  if (allOf) {
-    let allOfProperties = {};
-    allOf.forEach((item) => {
-      if (item.properties) allOfProperties = { ...iterateObjectPattern({}, item.properties) }
-    })
-    return allOfProperties;
-  };
+  let combinedPattern = {};
+  let combinedProperties;
+  const { allOf, oneOf } = schemaType;
+  if (allOf || oneOf) {
+    combinedProperties = allOf || oneOf;
+    combinedProperties.forEach((item) => {
+      if (item.properties) combinedPattern = { ...iterateObjectPattern({}, item.properties) }
+    });
+    return combinedPattern;
+  }
+
+  return null;
 }
 
 function iterateObjectPattern(pattern, properties) {
@@ -59,25 +63,24 @@ function iterateObjectPattern(pattern, properties) {
     const propertyValue = properties[key];
     const { items, anyOf } = propertyValue;
 
-    // object.string
     if (propertyValue.$ref) {
+      // string
       pattern[key] = getPattern(getType(propertyValue.$ref));
       continue;
     }
     
-    // object.array
     if (items) {
-      // object.array.array
       if (items.items) {
+        // array.array
         pattern[key] = [[getPattern(getType(propertyValue.items.items.$ref))]];
         continue;
       }
 
+      // array
       pattern[key] = [getPattern(getType(propertyValue.items.$ref))];
       continue;
     }
 
-    // object.array[any]
     if (anyOf) {
       pattern[key] = { any: [] };
       anyOf.forEach((item) => {
@@ -85,6 +88,7 @@ function iterateObjectPattern(pattern, properties) {
           const anyOfItemType = getType(item.items.$ref);
           const anyOfItemTypePattern = getPattern(anyOfItemType);
           if (!isMainType(anyOfItemType) && anyOfItemTypePattern) {
+            // { any: [...string] }
             pattern[key].any.push(anyOfItemTypePattern);
           }
 
@@ -96,6 +100,7 @@ function iterateObjectPattern(pattern, properties) {
               const oneOfItemType = getType(item.$ref);
               oneOfProperties = { ...oneOfProperties, ...getPattern(oneOfItemType) };
             })
+            // { any: [...object] }
             pattern[key].any.push(oneOfProperties);
           }
         }
@@ -103,8 +108,6 @@ function iterateObjectPattern(pattern, properties) {
       continue;
     }
   }
-
-  // console.log(pattern)
 
   return pattern;
 }

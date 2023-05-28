@@ -8,7 +8,7 @@ describe("eth_getUncleCountByBlockNumber", () => {
     evaluateResponse({
       response: await eth_getUncleCountByBlockNumber(),
       pattern: await patternGenerator.buildStringPattern({
-        rpcDefinitionPath: "../execution-apis/src/eth/state.yaml",
+        rpcDefinitionPath: "../execution-apis/src/eth/block.yaml",
         rpcName: "eth_getUncleCountByBlockNumber",
       }),
     });

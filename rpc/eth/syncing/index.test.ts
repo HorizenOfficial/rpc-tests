@@ -7,8 +7,8 @@ describe("eth_syncing", () => {
   it("Returns an object with data about the sync status or false.", async () => {
     evaluateResponse({
       response: await eth_syncing(),
-      pattern: await patternGenerator.buildStringPattern({
-        rpcDefinitionPath: "../execution-apis/src/eth/state.yaml",
+      pattern: await patternGenerator.buildMainPattern({
+        rpcDefinitionPath: "../execution-apis/src/eth/client.yaml",
         rpcName: "eth_syncing",
       }),
     });

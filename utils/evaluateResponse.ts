@@ -1,6 +1,8 @@
 import { expect } from "@jest/globals";
 import fixtures from "../fixtures";
 
+const DEV_MODE = true;
+
 // A robust version of the "typeof" operator
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#custom_method_that_gets_a_more_specific_type
 function type(value) {
@@ -42,7 +44,9 @@ function type(value) {
 }
 
 function testString(value, pattern) {
-  // console.log(`value:   ${value}\npattern: ${pattern}`)
+  if (DEV_MODE) {
+    console.log(`value:   ${value}\npattern: ${pattern}`);
+  }
   
   // for a property that exists outside of the schema definition
   // and does not have a pattern to use for assertion, test for null
@@ -78,7 +82,16 @@ function iterateObjectProperties(value, pattern) {
 function reduceValue(value, pattern) {
   switch(type(value)) {
     case "Array":
-      value.forEach(item => reduceValue(item, (pattern && pattern[0]) || null));
+      value.forEach(item => {
+        if (pattern && pattern.any) {
+          pattern.any.forEach((anyPattern) =>
+            (type(anyPattern) === "Object")
+              ? reduceValue(item, anyPattern)
+              : null
+          );
+        }
+        return reduceValue(item, (pattern && pattern[0]) || null);
+      });
       break;
 
     case "Object":
@@ -110,13 +123,14 @@ function evaluateResponse({ response, pattern }) {
   const { jsonrpc, id, result: value, error } = response;
   if (error) throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
 
-  // console.log("response",response)
-  console.log("pattern",pattern)
-  console.log("pattern",pattern.transactions.any)
-
   expect(jsonrpc).toBe(fixtures.jsonrpc);
   expect(id).toBe(fixtures.id);
   reduceValue(value, pattern);
+
+  if (DEV_MODE) {
+    console.log("response",response);
+    console.log("pattern",pattern);
+  }
 }
 
 export default evaluateResponse;

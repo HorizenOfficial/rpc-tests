@@ -8,7 +8,7 @@ describe("eth_getTransactionByBlockNumberAndIndex", () => {
     evaluateResponse({
       response: await eth_getTransactionByBlockNumberAndIndex(), 
       pattern: await patternGenerator.buildStringPattern({
-        rpcDefinitionPath: "../execution-apis/src/eth/state.yaml",
+        rpcDefinitionPath: "../execution-apis/src/eth/transaction.yaml",
         rpcName: "eth_getTransactionByBlockNumberAndIndex",
       }),
     });

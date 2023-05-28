@@ -7,8 +7,8 @@ describe("eth_getTransactionReceipt", () => {
   it("Returns the receipt of a transaction by transaction hash.", async () => {
     evaluateResponse({
       response: await eth_getTransactionReceipt(),
-      pattern: await patternGenerator.buildStringPattern({
-        rpcDefinitionPath: "../execution-apis/src/eth/state.yaml",
+      pattern: await patternGenerator.buildMainPattern({
+        rpcDefinitionPath: "../execution-apis/src/eth/transaction.yaml",
         rpcName: "eth_getTransactionReceipt",
       }),
     });
