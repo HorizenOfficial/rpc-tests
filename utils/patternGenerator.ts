@@ -11,14 +11,14 @@ function getRpcDefinition(rpcDefinitionPath, rpcName) {
 }
 
 function getSchema() {
-  const baseTypes = parseYaml(`../execution-apis/src/schemas/base-types.yaml`);
-  const block = parseYaml(`../execution-apis/src/schemas/block.yaml`);
-  const client = parseYaml(`../execution-apis/src/schemas/client.yaml`);
-  const filter = parseYaml(`../execution-apis/src/schemas/filter.yaml`);
-  const receipt = parseYaml(`../execution-apis/src/schemas/receipt.yaml`);
-  const state = parseYaml(`../execution-apis/src/schemas/state.yaml`);
-  const transaction = parseYaml(`../execution-apis/src/schemas/transaction.yaml`);
-  const withdrawal = parseYaml(`../execution-apis/src/schemas/withdrawal.yaml`);
+  const baseTypes = parseYaml("../execution-apis/src/schemas/base-types.yaml");
+  const block = parseYaml("../execution-apis/src/schemas/block.yaml");
+  const client = parseYaml("../execution-apis/src/schemas/client.yaml");
+  const filter = parseYaml("../execution-apis/src/schemas/filter.yaml");
+  const receipt = parseYaml("../execution-apis/src/schemas/receipt.yaml");
+  const state = parseYaml("../execution-apis/src/schemas/state.yaml");
+  const transaction = parseYaml("../execution-apis/src/schemas/transaction.yaml");
+  const withdrawal = parseYaml("../execution-apis/src/schemas/withdrawal.yaml");
 
   return {
     ...baseTypes,
