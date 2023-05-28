@@ -5,33 +5,63 @@ function getType($ref) {
   return $refDirName[$refDirName.length - 1];
 }
 
-async function getRpcDefinition(rpcDefinitionPath, rpcName) {
-  const contents = await parseYaml(rpcDefinitionPath);
+function getRpcDefinition(rpcDefinitionPath, rpcName) {
+  const contents = parseYaml(rpcDefinitionPath);
   return contents.find(item => item.name === rpcName);
 }
 
-async function getSchema(schema) {
-  return await parseYaml(`../execution-apis/src/schemas/${schema}.yaml`);
+function getSchema() {
+  const baseTypes = parseYaml(`../execution-apis/src/schemas/base-types.yaml`);
+  const block = parseYaml(`../execution-apis/src/schemas/block.yaml`);
+  const client = parseYaml(`../execution-apis/src/schemas/client.yaml`);
+  const filter = parseYaml(`../execution-apis/src/schemas/filter.yaml`);
+  const receipt = parseYaml(`../execution-apis/src/schemas/receipt.yaml`);
+  const state = parseYaml(`../execution-apis/src/schemas/state.yaml`);
+  const transaction = parseYaml(`../execution-apis/src/schemas/transaction.yaml`);
+  const withdrawal = parseYaml(`../execution-apis/src/schemas/withdrawal.yaml`);
+
+  return {
+    ...baseTypes,
+    ...block,
+    ...client,
+    ...filter,
+    ...receipt,
+    ...state,
+    ...transaction,
+    ...withdrawal,
+  }
 }
 
-async function getBasePattern(name) {
-  const baseTypes = await getSchema("base-types");
-  const baseType = baseTypes[name];
-  if (baseType) return new RegExp(baseType.pattern);
-
-  const mainTypes = await getSchema(name.toLowerCase());
-  const mainType = mainTypes[name];
-  return await iterateObjectPattern({}, mainType.properties);
+function isMainType(type) {
+  return type.charAt(0) === type.charAt(0).toUpperCase();
 }
 
-async function iterateObjectPattern(pattern, properties) {
+function getPattern(type) {
+  const schema = getSchema();
+  const schemaType = schema[type];
+  if (!isMainType(type) && schemaType) return new RegExp(schemaType.pattern);
+
+  const { properties } = schemaType;
+  if (properties) return iterateObjectPattern({}, properties);
+
+  const { allOf } = schemaType;
+  if (allOf) {
+    let allOfProperties = {};
+    allOf.forEach((item) => {
+      if (item.properties) allOfProperties = { ...iterateObjectPattern({}, item.properties) }
+    })
+    return allOfProperties;
+  };
+}
+
+function iterateObjectPattern(pattern, properties) {
   for (const key in properties) {
     const propertyValue = properties[key];
     const { items, anyOf } = propertyValue;
 
     // object.string
     if (propertyValue.$ref) {
-      pattern[key] = await getBasePattern(getType(propertyValue.$ref));
+      pattern[key] = getPattern(getType(propertyValue.$ref));
       continue;
     }
     
@@ -39,46 +69,67 @@ async function iterateObjectPattern(pattern, properties) {
     if (items) {
       // object.array.array
       if (items.items) {
-        pattern[key] = [[await getBasePattern(getType(propertyValue.items.items.$ref))]];
+        pattern[key] = [[getPattern(getType(propertyValue.items.items.$ref))]];
         continue;
       }
 
-      pattern[key] = [await getBasePattern(getType(propertyValue.items.$ref))];
+      pattern[key] = [getPattern(getType(propertyValue.items.$ref))];
       continue;
     }
 
     // object.array[any]
     if (anyOf) {
-      
+      pattern[key] = { any: [] };
+      anyOf.forEach((item) => {
+        if (item.items) {
+          const anyOfItemType = getType(item.items.$ref);
+          const anyOfItemTypePattern = getPattern(anyOfItemType);
+          if (!isMainType(anyOfItemType) && anyOfItemTypePattern) {
+            pattern[key].any.push(anyOfItemTypePattern);
+          }
+
+          const schema = getSchema();
+          const { oneOf } = schema[anyOfItemType];
+          if (oneOf) {
+            let oneOfProperties = {};
+            oneOf.forEach((item) => {
+              const oneOfItemType = getType(item.$ref);
+              oneOfProperties = { ...oneOfProperties, ...getPattern(oneOfItemType) };
+            })
+            pattern[key].any.push(oneOfProperties);
+          }
+        }
+      });
+      continue;
     }
   }
+
+  // console.log(pattern)
 
   return pattern;
 }
 
 async function buildArrayPattern({ rpcDefinitionPath, rpcName }) {
-  const rpcDefinition = await getRpcDefinition(rpcDefinitionPath, rpcName);
-  return [await getBasePattern(getType(rpcDefinition.result.schema.items.$ref))];
+  const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
+  return [getPattern(getType(rpcDefinition.result.schema.items.$ref))];
 }
 
 async function buildObjectPattern({ rpcDefinitionPath, rpcName }) {
-  const rpcDefinition = await getRpcDefinition(rpcDefinitionPath, rpcName);
+  const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
   const { properties } = rpcDefinition.result.schema;
   return iterateObjectPattern({}, properties);
 }
 
 async function buildMainPattern({ rpcDefinitionPath, rpcName }) {
-  const rpcDefinition = await getRpcDefinition(rpcDefinitionPath, rpcName);
+  const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
   const { $ref } = rpcDefinition.result.schema;
-  const typeSchemaName = getType($ref);
-  const typeSchema = (await getSchema(getType(typeSchemaName)))[typeSchemaName];
-  const { properties } = typeSchema;
-  return iterateObjectPattern({}, properties);
+  const mainTypeName = getType($ref);
+  return getPattern(mainTypeName);
 }
 
 async function buildStringPattern({ rpcDefinitionPath, rpcName }) {
-  const rpcDefinition = await getRpcDefinition(rpcDefinitionPath, rpcName);
-  return await getBasePattern(getType(rpcDefinition.result.schema.$ref));
+  const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
+  return getPattern(getType(rpcDefinition.result.schema.$ref));
 }
 
 export default {

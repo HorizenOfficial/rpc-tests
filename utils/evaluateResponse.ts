@@ -42,7 +42,7 @@ function type(value) {
 }
 
 function testString(value, pattern) {
-  console.log(`value:   ${value}\npattern: ${pattern}`)
+  // console.log(`value:   ${value}\npattern: ${pattern}`)
   
   // for a property that exists outside of the schema definition
   // and does not have a pattern to use for assertion, test for null
@@ -109,6 +109,10 @@ function reduceValue(value, pattern) {
 function evaluateResponse({ response, pattern }) {
   const { jsonrpc, id, result: value, error } = response;
   if (error) throw new Error(`Error: ${JSON.stringify(error, null, 2)}`);
+
+  // console.log("response",response)
+  console.log("pattern",pattern)
+  console.log("pattern",pattern.transactions.any)
 
   expect(jsonrpc).toBe(fixtures.jsonrpc);
   expect(id).toBe(fixtures.id);

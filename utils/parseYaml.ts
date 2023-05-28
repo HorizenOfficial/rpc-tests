@@ -1,12 +1,13 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "fs";
 import path from "path";
 import yaml from "yaml";
 
-async function parseYaml(file: string) {
+function parseYaml(file: string) {
   try {
-    const contents = await readFile(
-      path.resolve(__dirname, file),
-      { encoding: "utf8" },
+    const contents = readFileSync(
+      path.resolve(
+        __dirname, file
+      ), "utf8"
     );
     return yaml.parse(contents);
   } catch(error) {
