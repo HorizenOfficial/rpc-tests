@@ -6,8 +6,7 @@ function getType($ref) {
 }
 
 function getRpcDefinition(rpcDefinitionPath, rpcName) {
-  const contents = parseYaml(rpcDefinitionPath);
-  return contents.find(item => item.name === rpcName);
+  return parseYaml(rpcDefinitionPath).find(item => item.name === rpcName);
 }
 
 function getSchema() {
@@ -126,8 +125,7 @@ async function buildObjectPattern({ rpcDefinitionPath, rpcName }) {
 async function buildMainPattern({ rpcDefinitionPath, rpcName }) {
   const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
   const { $ref } = rpcDefinition.result.schema;
-  const mainTypeName = getType($ref);
-  return getPattern(mainTypeName);
+  return getPattern(getType($ref));
 }
 
 async function buildStringPattern({ rpcDefinitionPath, rpcName }) {
@@ -141,4 +139,3 @@ export default {
   buildStringPattern,
   buildMainPattern,
 };
-
