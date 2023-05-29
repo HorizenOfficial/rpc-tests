@@ -1,7 +1,6 @@
 import { expect } from "@jest/globals";
 import fixtures from "../fixtures";
-
-const DEV_MODE = true;
+require("dotenv").config();
 
 // A robust version of the "typeof" operator
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#custom_method_that_gets_a_more_specific_type
@@ -44,7 +43,7 @@ function type(value) {
 }
 
 function testString(value, pattern) {
-  if (DEV_MODE) {
+  if (process.env.DEV_MODE) {
     console.log(`value:   ${value}\npattern: ${pattern}`);
   }
   
@@ -127,7 +126,7 @@ function evaluateResponse({ response, pattern }) {
   expect(id).toBe(fixtures.id);
   reduceValue(value, pattern);
 
-  if (DEV_MODE) {
+  if (process.env.DEV_MODE) {
     console.log("response",response);
     console.log("pattern",pattern);
   }

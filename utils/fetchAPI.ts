@@ -1,11 +1,11 @@
 import axios from "axios";
-import urlProvider from "./urlProvider";
 import { JSONRPC, Options, } from "./types";
+require("dotenv").config();
 
 async function fetchAPI({ 
   httpMethod = "post",
   options,
-  url = urlProvider.rpcUrl,
+  url = process.env.RPC_URL,
 }: {
   httpMethod?: string;
   options: Options;
