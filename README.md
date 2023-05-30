@@ -40,7 +40,7 @@ Have a look at the `rpc/eth` directory for the list of supported RPC methods tha
 
 ### Modifying the test parameters
 
-You can modify the test parameters and use your own by editing the RPC method's `options.param` value (e.g. `rpc/eth/blockNumber/index.ts`):
+You can modify the test parameters and use your own values by modifying the `options.params`. For example for `rpc/eth/blockNumber` method, you will perform your updates like so:
 
     options: {
       id: fixtures.id,

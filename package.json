@@ -2,7 +2,7 @@
   "name": "rpc-tests",
   "version": "1.0.0",
   "description": "Test suite for the EON node RPC interface.",
-  "author": "HorizenLabs <info@horizenlabs.io>",
+  "author": "Horizen Labs <info@horizenlabs.io>",
   "main": "index",
   "scripts": {
     "test": "jest"
