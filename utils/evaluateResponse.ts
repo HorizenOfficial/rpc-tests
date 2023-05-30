@@ -44,7 +44,7 @@ function type(value) {
 
 function testString(value, pattern) {
   if (process.env.DEV_MODE) {
-    console.log(`value:   ${value}\npattern: ${pattern}`);
+    console.log(`performing test on:\n-------------------\nvalue:   ${value}\npattern: ${pattern}`);
   }
   
   // for a property that exists outside of the schema definition
@@ -127,8 +127,7 @@ function evaluateResponse({ response, pattern }) {
   reduceValue(value, pattern);
 
   if (process.env.DEV_MODE) {
-    console.log("response",response);
-    console.log("pattern",pattern);
+    console.log("response:", response, "\n", "pattern:",pattern);
   }
 }
 
