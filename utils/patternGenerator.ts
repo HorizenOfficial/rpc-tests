@@ -31,14 +31,16 @@ function getSchema() {
   }
 }
 
-function isMainType(type) {
-  return type.charAt(0) === type.charAt(0).toUpperCase();
+function isBaseType(type) {
+  return Object
+    .keys(parseYaml("../execution-apis/src/schemas/base-types.yaml"))
+    .find(baseType => type === baseType);
 }
 
 function getPattern(type) {
   const schema = getSchema();
   const schemaType = schema[type];
-  if (!isMainType(type) && schemaType) return new RegExp(schemaType.pattern);
+  if (isBaseType(type) && schemaType) return new RegExp(schemaType.pattern);
 
   const { properties } = schemaType;
   if (properties) return iterateObjectProperties(properties);
@@ -87,7 +89,7 @@ function iterateObjectProperties(properties) {
         if (item.items) {
           const anyOfItemType = getType(item.items.$ref);
           const anyOfItemTypePattern = getPattern(anyOfItemType);
-          if (!isMainType(anyOfItemType) && anyOfItemTypePattern) {
+          if (isBaseType(anyOfItemType) && anyOfItemTypePattern) {
             // { any: [...string] }
             pattern[key].any.push(anyOfItemTypePattern);
           }
