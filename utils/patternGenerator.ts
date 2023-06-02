@@ -41,7 +41,7 @@ function getPattern(type) {
   if (!isMainType(type) && schemaType) return new RegExp(schemaType.pattern);
 
   const { properties } = schemaType;
-  if (properties) return iterateObjectProperties({}, properties);
+  if (properties) return iterateObjectProperties(properties);
 
   let combinedPattern = {};
   let combinedProperties;
@@ -49,7 +49,7 @@ function getPattern(type) {
   if (allOf || oneOf) {
     combinedProperties = allOf || oneOf;
     combinedProperties.forEach((item) => {
-      if (item.properties) combinedPattern = { ...iterateObjectProperties({}, item.properties) }
+      if (item.properties) combinedPattern = { ...iterateObjectProperties(item.properties) }
     });
     return combinedPattern;
   }
@@ -57,7 +57,8 @@ function getPattern(type) {
   return null;
 }
 
-function iterateObjectProperties(pattern, properties) {
+function iterateObjectProperties(properties) {
+  const pattern = {};
   for (const key in properties) {
     const propertyValue = properties[key];
     const { items, anyOf } = propertyValue;
@@ -119,7 +120,7 @@ async function buildArrayPattern({ rpcDefinitionPath, rpcName }) {
 async function buildObjectPattern({ rpcDefinitionPath, rpcName }) {
   const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
   const { properties } = rpcDefinition.result.schema;
-  return iterateObjectProperties({}, properties);
+  return iterateObjectProperties(properties);
 }
 
 async function buildMainPattern({ rpcDefinitionPath, rpcName }) {
