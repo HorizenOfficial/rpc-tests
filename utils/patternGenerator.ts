@@ -137,6 +137,7 @@ async function buildStringPattern({ rpcDefinitionPath, rpcName }) {
 }
 
 export default {
+  getSchema,
   buildArrayPattern,
   buildObjectPattern,
   buildStringPattern,
