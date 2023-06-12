@@ -125,10 +125,14 @@ async function buildObjectPattern({ rpcDefinitionPath, rpcName }) {
   return iterateObjectProperties(properties);
 }
 
-async function buildMainPattern({ rpcDefinitionPath, rpcName, main = "" }) {
+async function buildMainPattern({ rpcDefinitionPath, rpcName }) {
   const rpcDefinition = getRpcDefinition(rpcDefinitionPath, rpcName);
   const { $ref } = rpcDefinition.result.schema;
-  return getPattern(getType(main ? main : $ref));
+  return getPattern(getType($ref));
+}
+
+async function buildSingleObjectPattern({ type }) {
+  return getPattern(getType(type));
 }
 
 async function buildStringPattern({ rpcDefinitionPath, rpcName }) {
@@ -139,7 +143,8 @@ async function buildStringPattern({ rpcDefinitionPath, rpcName }) {
 export default {
   getSchema,
   buildArrayPattern,
+  buildMainPattern,
   buildObjectPattern,
   buildStringPattern,
-  buildMainPattern,
+  buildSingleObjectPattern,
 };
