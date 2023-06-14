@@ -3,7 +3,8 @@ import txpool_status from "./index";
 import evaluateResponse from "../../../utils/evaluateResponse";
 
 describe("txpool_status", () => {
-  it("The status inspection property can be queried to know how many transactions are currently pending for inclusion in the next block(s), and how many are being scheduled for future execution. The result is an object with two fields pending and queued.", async () => {
+  // The result is an object with two fields pending and queued.
+  it("Returns the number of transactions that are currently pending for inclusion in the next block(s), and ones that are being scheduled for future execution.", async () => {
     evaluateResponse({
       response: await txpool_status(), 
       pattern: null,

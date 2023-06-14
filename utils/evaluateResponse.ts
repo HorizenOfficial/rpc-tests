@@ -72,6 +72,19 @@ function unsupportedType(type) {
   );
 }
 
+function iterateArrayItems(value, pattern) {
+  value.forEach(item => {
+    if (pattern && pattern.any) {
+      pattern.any.forEach((anyPattern) =>
+        (type(anyPattern) === "Object")
+          ? reduceValue(item, anyPattern)
+          : null
+      );
+    }
+    return reduceValue(item, (pattern && pattern[0]) || null);
+  });
+}
+
 function iterateObjectProperties(value, pattern) {
   for (const key in value) {
     reduceValue(value[key], (pattern && pattern[key]) || null);
@@ -81,16 +94,7 @@ function iterateObjectProperties(value, pattern) {
 function reduceValue(value, pattern) {
   switch(type(value)) {
     case "Array":
-      value.forEach(item => {
-        if (pattern && pattern.any) {
-          pattern.any.forEach((anyPattern) =>
-            (type(anyPattern) === "Object")
-              ? reduceValue(item, anyPattern)
-              : null
-          );
-        }
-        return reduceValue(item, (pattern && pattern[0]) || null);
-      });
+      iterateArrayItems(value, pattern);
       break;
 
     case "Object":
