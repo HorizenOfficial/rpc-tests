@@ -10,41 +10,42 @@ These methods require an account with _zen_ and it will need to make use of a ja
 
 ## Installation
 
-Issue the following commands in succession:
+Issue the following commands:
 
-    git clone git@github.com:HorizenOfficial/rpc-tests.git
-    cd rpc-tests
-    git submodule update --init
-    npm install
-    cp .env.local.example .env
+    git clone git@github.com:HorizenOfficial/rpc-tests.git;
+    cd rpc-tests;
+    git submodule add --force git@github.com:ethereum/execution-apis.git;
+    git submodule update --init;
+    npm install;
+    cp .env.local.example .env;
 
 ### Running the tests
 
 To run the tests, simply issue:
 
-    npm run test
+    npm run test;
 
-### Running test only for specific namespace
+### Running test for a specific namespace
 
-You can run tests only for specific RPC namespace such as `rpc/eth` by issuing the following command:
+You can run tests for a specific RPC namespace such as `rpc/eth` by issuing the following command:
 
     npm run test rpc/eth
 
-### Running test only for specific RPC method
+### Running test for a specific RPC method
 
-You can run tests only for specific RPC method such as as `rpc/eth/feeHistory` by issuing the following command:
+You can run tests for a specific RPC method such as `rpc/eth/feeHistory` by issuing the following command:
 
-    npm run test rpc/eth/feeHistory/index.test.ts
+    npm run test rpc/eth/feeHistory
 
 Have a look at the `rpc/eth` directory for the list of supported RPC methods that can be tested.
 
 ### Modifying the test parameters
 
-You can modify the test parameters and use your own values by modifying the `options.params`. For example for `rpc/eth/blockNumber` method, you will perform your updates like so:
+You can modify the test parameters and use your own values by modifying the `options.params` property. For example for the `rpc/eth/getBlockByHash` method, you will add your parameters like so:
 
     options: {
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
-      method: "eth_blockNumber",
-      params: [], // add your parameters inside this array
+      method: "eth_getBlockByHash",
+      params: ["0x4a390501c77e6f943a4f8cf69e4c76b426918f357583257df89878a8ef2caa39", true], // add parameters here
     },
