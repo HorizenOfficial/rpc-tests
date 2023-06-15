@@ -15,6 +15,7 @@ Issue the following commands:
     git clone git@github.com:HorizenOfficial/rpc-tests.git;
     cd rpc-tests;
     git submodule add git@github.com:ethereum/execution-apis.git;
+    git submodule update --init
     npm install;
     cp .env.local.example .env;
 
