@@ -15,7 +15,7 @@ Issue the following commands:
     git clone git@github.com:HorizenOfficial/rpc-tests.git;
     cd rpc-tests;
     git submodule add git@github.com:ethereum/execution-apis.git;
-    git submodule update --init
+    git submodule update --init;
     npm install;
     cp .env.local.example .env;
 
@@ -47,5 +47,5 @@ You can modify the test parameters and use your own values by modifying the `opt
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getBlockByHash",
-      params: ["0x4a390501c77e6f943a4f8cf69e4c76b426918f357583257df89878a8ef2caa39", true], // add paramters here
+      params: ["0x4a390501c77e6f943a4f8cf69e4c76b426918f357583257df89878a8ef2caa39", true], // add parameters here
     },
