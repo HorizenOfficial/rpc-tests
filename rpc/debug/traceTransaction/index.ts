@@ -8,7 +8,7 @@ const debug_traceTransaction = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "debug_traceTransaction",
-      params: ["0x5d094d1a3bcd65eb8955a66ef8554f106400779934aa6d94a68bd6043f19415d", {}],
+      params: [process.env.TX_HASH, {}],
     },
   });
 

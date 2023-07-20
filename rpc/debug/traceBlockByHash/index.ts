@@ -8,7 +8,7 @@ const debug_traceBlockByHash = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "debug_traceBlockByHash",
-      params: ["0x33d2ffd2ff96dce5352e166f5dba9873ef8ee761df626bd998cb9f12b3de35a1", {}],
+      params: [process.env.BLOCK_HASH, {}],
     },
   });
 

@@ -9,9 +9,9 @@ const eth_estimateGas = async ():
       jsonrpc: fixtures.jsonrpc,
       method: "eth_estimateGas",
       params: [{
-        from: "0x10FEDe72EEd94284B8Aa7002A8D46b347D83B91B",
-        to: "0xd3CdA913deB6f67967B99D67aCDFa1712C293601",
-        value: "0x186a0",
+        from: process.env.ETH_FROM,
+        to: process.env.ETH_TO,
+        value: process.env.VALUE,
       }],
     },
   });

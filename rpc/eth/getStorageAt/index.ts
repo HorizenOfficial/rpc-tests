@@ -8,7 +8,7 @@ const eth_getStorageAt = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getStorageAt",
-      params: ["0x2054ccE26be7B305dDA11d16E87a535258cD018E", "0x1", "latest"],
+      params: [process.env.SMART_CONTRACT_ADDRESS, "0x1", "latest"],
     },
   });
 

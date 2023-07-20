@@ -8,7 +8,7 @@ const eth_getTransactionByBlockHashAndIndex = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getTransactionByBlockHashAndIndex",
-      params: ["0xd3a8160f362a2ca191fec47476ff318526e098bcc36ff4c02d2e6e42b2d681c4", "0x0"],
+      params: [process.env.BLOCK_HASH, "0x0"],
     },
   });
 

@@ -8,7 +8,7 @@ const eth_getTransactionCount = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getTransactionCount",
-      params: ["0x2054ccE26be7B305dDA11d16E87a535258cD018E"],
+      params: [process.env.ETH_FROM],
     },
   });
 

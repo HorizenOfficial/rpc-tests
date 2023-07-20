@@ -8,7 +8,7 @@ const eth_getCode = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getCode",
-      params: ["0xc439af75261241c34565b818b89f932e11263305"],
+      params: [process.env.SMART_CONTRACT_ADDRESS],
     },
   });
 

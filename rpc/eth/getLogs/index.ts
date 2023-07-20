@@ -9,9 +9,9 @@ const eth_getLogs = async ():
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getLogs",
       params: [{
-        fromBlock: "0x34db3", 
-        toBlock: "0x34db4", 
-        address: "0xce695db1e37142a47108cf8019b63236f3298020"
+        fromBlock: process.env.FROM_BLOCK,
+        toBlock: process.env.TO_BLOCK,
+        address: process.env.SMART_CONTRACT_ADDRESS
       }],
     },
   });

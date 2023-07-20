@@ -8,7 +8,7 @@ const debug_traceBlockByNumber = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "debug_traceBlockByNumber",
-      params: [221430, {}],
+      params: [process.env.BLOCK_NUMBER, {}],
     },
   });
 

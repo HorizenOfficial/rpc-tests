@@ -9,7 +9,7 @@ const eth_getProof = async ():
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getProof",
       params: [
-        "0x2054ccE26be7B305dDA11d16E87a535258cD018E",
+        process.env.SMART_CONTRACT_ADDRESS,
         ["0x0000000000000000000000000000000000000000000000000000000000000000"],
         "latest"
       ],

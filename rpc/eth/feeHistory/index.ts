@@ -8,7 +8,7 @@ const eth_feeHistory = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_feeHistory",
-      params: ["0x1", "0x1ffdd", [25, 75]],
+      params: ["0x1", "latest", [25, 75]],
     },
   });
 

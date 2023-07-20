@@ -14,15 +14,15 @@ Issue the following commands:
 
     git clone git@github.com:HorizenOfficial/rpc-tests.git;
     cd rpc-tests;
-    git submodule add --force git@github.com:ethereum/execution-apis.git;
+    git submodule add --force https://github.com/ethereum/execution-apis.git;
     git submodule update --init;
     npm install;
-    cp .env.local.example .env;
 
 ### Running the tests
 
-To run the tests, simply issue:
+To run the tests, specify the correct env file to be copied and run the tests:
 
+    cp .env.gobi .env;
     npm run test;
 
 ### Running test for a specific namespace

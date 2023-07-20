@@ -8,7 +8,7 @@ const eth_getTransactionByHash = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getTransactionByHash",
-      params: ["0xcf72cfc4361966310bcc0e62da49fe71c14a0e4668a21fa0c821500607f9f295"],
+      params: [process.env.TX_HASH],
     },
   });
 

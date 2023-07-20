@@ -8,7 +8,7 @@ const eth_getBalance = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getBalance",
-      params: ["0xB0B376f61da13a3295190699a24CbC5201165430"],
+      params: [process.env.ETH_FROM],
     },
   });
 

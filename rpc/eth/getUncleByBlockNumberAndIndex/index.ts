@@ -8,7 +8,7 @@ const eth_getUncleByBlockNumberAndIndex = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getUncleByBlockNumberAndIndex",
-      params: [192633, "0x0"],
+      params: [process.env.BLOCK_NUMBER, "0x0"],
     },
   });
 

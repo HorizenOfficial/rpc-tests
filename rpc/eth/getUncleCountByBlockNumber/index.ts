@@ -8,7 +8,7 @@ const eth_getUncleCountByBlockNumber = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getUncleCountByBlockNumber",
-      params: [192627],
+      params: [process.env.BLOCK_NUMBER],
     },
   });
 

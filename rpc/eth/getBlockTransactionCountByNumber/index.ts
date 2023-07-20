@@ -8,7 +8,7 @@ const eth_getBlockTransactionCountByNumber = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getBlockTransactionCountByNumber",
-      params: [33414],
+      params: [process.env.BLOCK_NUMBER],
     },
   });
 

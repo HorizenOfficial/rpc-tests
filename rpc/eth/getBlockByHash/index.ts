@@ -8,7 +8,7 @@ const eth_getBlockByHash = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getBlockByHash",
-      params: ["0xef4c45f27c708c46daf9887150d8ee4f771ef79f863e252e450842cb365a0071", true],
+      params: [process.env.BLOCK_HASH, true],
     },
   });
 

@@ -8,7 +8,7 @@ const eth_getBlockByNumber = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "eth_getBlockByNumber",
-      params: [33414, true],
+      params: [process.env.BLOCK_NUMBER, true],
     },
   });
 
