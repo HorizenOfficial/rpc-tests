@@ -8,7 +8,7 @@ const web3_sha3 = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "web3_sha3",
-      params: [process.env.ETH_FROM],
+      params: [process.env.ETH_FROM]
     },
   });
 

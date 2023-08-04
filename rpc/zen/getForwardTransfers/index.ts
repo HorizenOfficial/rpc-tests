@@ -8,7 +8,7 @@ const zen_getForwardTransfers = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "zen_getForwardTransfers",
-      params: [process.env.FORWARD_TRANSFER],
+      params: [process.env.FORWARD_TRANSFER]
     },
   });
 

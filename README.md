@@ -14,22 +14,27 @@ Issue the following commands:
 
     git clone git@github.com:HorizenOfficial/rpc-tests.git;
     cd rpc-tests;
-    git submodule add --force https://github.com/ethereum/execution-apis.git;
+
+
+    git submodule add --force git@github.com:ethereum/execution-apis.git;
     git submodule update --init;
     npm install;
+    cp .env.gobi .env;
 
 ### Running the tests
 
-To run the tests, specify the correct env file to be copied and run the tests:
+To run the tests, ensure .env files exist then execute one of:
 
-    cp .env.gobi .env;
-    npm run test;
+    npm run test-local
+    npm run test-pregobi
+    npm run test-gobi
+    npm run test-eon
 
 ### Running test for a specific namespace
 
 You can run tests for a specific RPC namespace such as `rpc/eth` by issuing the following command:
 
-    npm run test rpc/eth
+    npm run test rpc/eth;
 
 ### Running test for a specific RPC method
 

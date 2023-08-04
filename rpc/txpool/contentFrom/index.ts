@@ -8,7 +8,7 @@ const txpool_contentFrom = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "txpool_contentFrom",
-      params: [process.env.ETH_FROM],
+      params: [process.env.ETH_FROM]
     },
   });
 

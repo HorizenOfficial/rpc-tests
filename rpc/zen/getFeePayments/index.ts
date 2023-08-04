@@ -8,7 +8,7 @@ const zen_getFeePayments = async ():
       id: fixtures.id,
       jsonrpc: fixtures.jsonrpc,
       method: "zen_getFeePayments",
-      params: [process.env.BLOCK_NUMBER],
+      params: [process.env.BLOCK_NUMBER]
     },
   });
 
