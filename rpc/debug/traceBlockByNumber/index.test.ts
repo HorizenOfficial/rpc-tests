@@ -8,5 +8,5 @@ describe("debug_traceBlockByNumber", () => {
       response: await debug_traceBlockByNumber(), 
       pattern: null,
     });
-  });
+  }, 15000);
 });

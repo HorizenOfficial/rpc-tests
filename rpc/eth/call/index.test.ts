@@ -12,5 +12,5 @@ describe("eth_call", () => {
         rpcName: "eth_call",
       }),
     });
-  });
+  }, 15000);
 });

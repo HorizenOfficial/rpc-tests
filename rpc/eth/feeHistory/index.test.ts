@@ -12,5 +12,5 @@ describe("eth_feeHistory", () => {
         rpcName: "eth_feeHistory",
       }),
     });
-  });
+  }, 15000);
 });

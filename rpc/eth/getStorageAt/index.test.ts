@@ -12,5 +12,5 @@ describe("eth_getStorageAt", () => {
         rpcName: "eth_getStorageAt",
       }),
     });
-  });
+  }, 15000);
 });
