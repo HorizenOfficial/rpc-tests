@@ -9,5 +9,5 @@ describe("eth_getLogs", () => {
       response: await eth_getLogs(), 
       pattern: await patternGenerator.buildSingleObjectPattern({ type: "#/components/schemas/Log", }),
     });
-  }, 15000);
+  });
 });

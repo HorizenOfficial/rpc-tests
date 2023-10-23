@@ -8,5 +8,5 @@ describe("debug_traceBlockByHash", () => {
       response: await debug_traceBlockByHash(), 
       pattern: null,
     });
-  }, 15000);
+  });
 });

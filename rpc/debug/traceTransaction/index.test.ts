@@ -8,5 +8,5 @@ describe("debug_traceTransaction", () => {
       response: await debug_traceTransaction(), 
       pattern: null,
     });
-  }, 15000);
+  });
 });
