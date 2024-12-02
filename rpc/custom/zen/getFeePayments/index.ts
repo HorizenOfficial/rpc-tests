@@ -1,6 +1,6 @@
-import fetchAPI from "../../../utils/fetchAPI";
-import { JSONRPC } from "../../../utils/types";
-import fixtures from "../../../fixtures";
+import fetchAPI from "../../../../utils/fetchAPI";
+import { JSONRPC } from "../../../../utils/types";
+import fixtures from "../../../../fixtures";
 
 const zen_getFeePayments = async ():
   Promise<JSONRPC> => await fetchAPI({

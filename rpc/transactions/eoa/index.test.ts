@@ -10,7 +10,7 @@ const { RPC_URL, SEND_FROM_PK2, SEND_TO_ADDRESS, SEND_AMOUNT } = process.env;
 const provider = new Web3.providers.HttpProvider(RPC_URL);
 const web3 = new Web3(provider);
 
-describe("web3_sendTransaction", () => {
+describe("eth_sendRawTransaction", () => {
 
     if (!SEND_FROM_PK2) {
         throw new Error("SEND_FROM_PK2 is missing from the environment variables. Please set it in the .env file.");

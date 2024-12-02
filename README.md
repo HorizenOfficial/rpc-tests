@@ -1,11 +1,8 @@
-# Test suite for the EON node RPC interface
+# Test suite for EVM node RPC interface
 
 Untested:
 
-These methods require an account with _zen_ and it will need to make use of a javascript library such as [web3.js](https://github.com/web3/web3.js) to build, sign, and send transactions:
-
 - eth_sendTransaction
-- eth_sendRawTransaction
 - eth_sign
 
 ## Installation
@@ -21,14 +18,59 @@ Issue the following commands:
     npm install;
     cp .env.gobi .env;
 
-## debug_* calls
+### Adding new environment
+
+Create a new .env file in named in the format:
+
+    .env.myenvironment
+
+Add all required values, see existing the existing env.template
+
+### Running the tests
+
+To run the tests, ensure a .env file exists that matches the TEST_ENV passed in e.g. for `.env.local`:
+
+    TEST_ENV=local npm run test
+
+- This will search for a file called .env.local, and it will run everything apart from the transaction and debug tests.
+
+### Running with Docker
+
+    docker build -t rpc-tests .
+    docker run -v $(pwd)/reports:/usr/src/app/reports -e TEST_ENV=gobi rpc-tests npm run test
+
+### Running Custom Tests
+
+If you're EVM nodes have custom endpoints (e.g. like the zen ones), ensure they are in the `rpc/custom` directory and add them as comma separated values to `CUSTOM_RPC_TESTS`:
+
+    TEST_ENV=local CUSTOM_RPC_TESTS=zen,another npm test
+
+### Running test for a specific namespace
+
+You can run tests for a specific RPC namespace such as `rpc/eth` by issuing the following command:
+
+    TEST_ENV=local npm run test rpc/eth;
+
+### Running test for a specific RPC method
+
+You can run tests for a specific RPC method such as `rpc/eth/feeHistory` by issuing the following command:
+
+    npm run test rpc/eth/feeHistory
+
+Have a look at the `rpc/eth` directory for the list of supported RPC methods that can be tested.
+
+### debug_* calls
 
 These tests require basic auth username and password to be set:
 
     RPC_USERNAME=
     RPC_PASSWORD=
 
-## Send Transaction Tests
+And can be included in the test run by setting `ENABLE_DEBUG_TESTS` to `true`:
+
+    TEST_ENV=local ENABLE_DEBUG_TESTS=true npm run test
+
+### Transaction Tests
 
 These tests require adding 2 Private Keys (PKs) of the sending wallets to the .env as:
 
@@ -39,35 +81,11 @@ This should not be committed.  We use multiple wallets so that nonce values are 
 
 To run EOA to EOA test:
 
-    npm run test-gobi rpc/transactions/eoa
+    TEST_ENV=local ENABLE_TRANSACTION_TESTS=true npm run test rpc/transactions/eoa
 
-### Running the tests
+### Using recent data from block explorers
 
-To run the tests, ensure .env files exist then execute one of:
-
-    npm run test-local
-    npm run test-pregobi
-    npm run test-gobi
-    npm run test-eon
-
-### Running with Docker
-
-    docker build -t rpc-tests .
-    docker run -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test-gobi
-
-### Running test for a specific namespace
-
-You can run tests for a specific RPC namespace such as `rpc/eth` by issuing the following command:
-
-    npm run test rpc/eth;
-
-### Running test for a specific RPC method
-
-You can run tests for a specific RPC method such as `rpc/eth/feeHistory` by issuing the following command:
-
-    npm run test rpc/eth/feeHistory
-
-Have a look at the `rpc/eth` directory for the list of supported RPC methods that can be tested.
+There is one example test in `getTransactionByHash` that uses `BLOCKSCOUT_API` to retrieve a recent transaction.
 
 ### Modifying the test parameters
 
