@@ -41,7 +41,7 @@ To run the tests, ensure a .env file exists that matches the TEST_ENV passed in 
 
 ### Running Custom Tests
 
-If you're EVM nodes have custom endpoints (e.g. like the zen ones), ensure they are in the `rpc/custom` directory and add them as comma separated values to `CUSTOM_RPC_TESTS`:
+If your EVM nodes have custom endpoints (e.g. like the zen ones), ensure they are in the `rpc/custom` directory and add them as comma separated values to `CUSTOM_RPC_TESTS`:
 
     TEST_ENV=local CUSTOM_RPC_TESTS=zen,another npm test
 
