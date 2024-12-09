@@ -72,14 +72,14 @@ And can be included in the test run by setting `ENABLE_DEBUG_TESTS` to `true`:
 
 ### Transaction Tests
 
-These tests require adding 2 Private Keys (PKs) of the sending wallets to the .env as:
+These tests require adding 2 Private Keys (PKs) of the sending wallets as environment variables:
 
     SEND_FROM_PK=
     SEND_FROM_PK2=
 
 This should not be committed.  We use multiple wallets so that nonce values are not confused during parallel testing.
 
-To run EOA to EOA test:
+To run EOA to EOA test `ENABLE_TRANSACTION_TESTS` must be set to `true`:
 
     TEST_ENV=local ENABLE_TRANSACTION_TESTS=true npm run test rpc/transactions/eoa
 
