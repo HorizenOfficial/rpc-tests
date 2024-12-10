@@ -17,16 +17,23 @@ describe("eth_getTransactionByHash", () => {
     });
   });
 
-  it("Returns the information about the most recent transaction hash taken from blockscout", async () => {
-    const txHash = await getLatestTxHash();
+  const blockscoutApi = process.env.BLOCKSCOUT_API;
 
-    evaluateResponse({
-      response: await eth_getTransactionByHash(txHash),
-      pattern: await patternGenerator.buildStringPattern({
-        rpcDefinitionPath: "../execution-apis/src/eth/transaction.yaml",
-        rpcName: "eth_getTransactionByHash",
-      }),
-      expectNullResult: false
-    });
-  });
+  console.log("api: " + blockscoutApi);
+
+  (blockscoutApi ? test : test.skip)(
+      "Returns the information about the most recent transaction hash taken from blockscout",
+      async () => {
+        const txHash = await getLatestTxHash();
+
+        evaluateResponse({
+          response: await eth_getTransactionByHash(txHash),
+          pattern: await patternGenerator.buildStringPattern({
+            rpcDefinitionPath: "../execution-apis/src/eth/transaction.yaml",
+            rpcName: "eth_getTransactionByHash",
+          }),
+          expectNullResult: false,
+        });
+      }
+  );
 });

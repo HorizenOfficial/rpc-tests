@@ -1,7 +1,7 @@
 import { describe } from "@jest/globals";
 import zen_getFeePayments from "./index";
-import evaluateResponse from "../../../utils/evaluateResponse";
-import patternGenerator from "../../../utils/patternGenerator";
+import evaluateResponse from "../../../../utils/evaluateResponse";
+import patternGenerator from "../../../../utils/patternGenerator";
 
 describe("zen_getFeePayments", () => {
   it("Returns the list of the forger rewards (recipients and values) distributed at the specified block.", async () => {

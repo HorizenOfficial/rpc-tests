@@ -1,19 +1,11 @@
 {
   "name": "rpc-tests",
   "version": "1.0.0",
-  "description": "Test suite for the EON node RPC interface.",
+  "description": "Test suite for the EVM node RPC interface.",
   "author": "Horizen Labs <info@horizenlabs.io>",
   "main": "index",
   "scripts": {
-    "test-local": "cp .env.local .env && jest --config=jest.config.local.js",
-    "test-pregobi": "cp .env.pregobi .env && jest --config=jest.config.pregobi.js",
-    "test-gobi": "cp .env.gobi .env && jest --config=jest.config.gobi.js",
-    "test-eon": "cp .env.eon .env && jest --config=jest.config.eon.js --testPathIgnorePatterns \"transaction|debug\""
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/preset-env": "7.21.5",

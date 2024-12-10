@@ -27,19 +27,19 @@ script:
   # Test Commands
   - >
     if [ "$TEST_ENV" = "local" ]; then 
-      TEST_OUTPUT=$(docker run -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test-local 2>&1);
+      TEST_OUTPUT=$(docker run -e TEST_ENV=local -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
     fi
   - >
     if [ "$TEST_ENV" = "pregobi" ]; then 
-      TEST_OUTPUT=$(docker run -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -e RPC_URL=$RPC_URL_PRE_GOBI -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test-pregobi 2>&1);
+      TEST_OUTPUT=$(docker run -e TEST_ENV=pregobi -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -e RPC_URL=$RPC_URL_PRE_GOBI -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
     fi
   - >
     if [ "$TEST_ENV" = "gobi" ]; then 
-      TEST_OUTPUT=$(docker run -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test-gobi 2>&1);
+      TEST_OUTPUT=$(docker run -e TEST_ENV=gobi -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
     fi
   - >
     if [ "$TEST_ENV" = "eon" ]; then 
-      TEST_OUTPUT=$(docker run -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$EON_RPC_USERNAME -e RPC_PASSWORD=$EON_RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test-eon 2>&1);
+      TEST_OUTPUT=$(docker run -e TEST_ENV=eon -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$EON_RPC_USERNAME -e RPC_PASSWORD=$EON_RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
     fi
 
   - echo "$TEST_OUTPUT";

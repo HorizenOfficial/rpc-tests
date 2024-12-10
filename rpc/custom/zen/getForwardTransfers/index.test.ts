@@ -1,7 +1,7 @@
 import { describe } from "@jest/globals";
 import zen_getForwardTransfers from "./index";
-import evaluateResponse from "../../../utils/evaluateResponse";
-import patternGenerator from "../../../utils/patternGenerator";
+import evaluateResponse from "../../../../utils/evaluateResponse";
+import patternGenerator from "../../../../utils/patternGenerator";
 
 describe("zen_getForwardTransfers", () => {
   it("Returns the list of Forward Transfers (Zen coming from the Horizen Mainchain) at a specified block.", async () => {
