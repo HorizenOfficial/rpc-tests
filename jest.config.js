@@ -1,17 +1,11 @@
 const dotenv = require("dotenv");
 const fs = require("fs");
-dotenv.config();
 
 const ENV = process.env.TEST_ENV;
-const ENABLE_TRANSACTION_TESTS = process.env.ENABLE_TRANSACTION_TESTS === "true";
-const ENABLE_DEBUG_TESTS = process.env.ENABLE_DEBUG_TESTS === "true";
-const CUSTOM_RPC_TESTS = process.env.CUSTOM_RPC_TESTS
-    ? process.env.CUSTOM_RPC_TESTS.split(",")
-    : [];
 
 if (!ENV) {
     throw new Error(
-        "TEST_ENV is not set. Please specify the environment matching an existing .env file (e.g., .env.local)."
+        "TEST_ENV is not set. Please specify the environment matching an existing .env file (e.g., .env.horizentestnet)."
     );
 }
 
@@ -23,10 +17,27 @@ if (fs.existsSync(envFile)) {
     throw new Error(`Environment file ${envFile} not found.`);
 }
 
+const localEnvFile = `.env`;
+if (fs.existsSync(localEnvFile)) {
+    dotenv.config({ path: localEnvFile });
+    console.log(`Loaded sensitive data from: ${localEnvFile}`);
+} else {
+    console.log(`No local sensitive data file (${localEnvFile}) found.`);
+}
+
+const ENABLE_TRANSACTION_TESTS = process.env.ENABLE_TRANSACTION_TESTS === "true";
+const ENABLE_DEBUG_TESTS = process.env.ENABLE_DEBUG_TESTS === "true";
+const CUSTOM_RPC_TESTS = process.env.CUSTOM_RPC_TESTS
+    ? process.env.CUSTOM_RPC_TESTS.split(",")
+    : [];
+const UNSUPPORTED_METHODS = process.env.UNSUPPORTED_METHODS
+    ? process.env.UNSUPPORTED_METHODS.split(",")
+    : [];
+
 if (ENABLE_TRANSACTION_TESTS) {
-    if (!process.env.SEND_FROM_PK1 || !process.env.SEND_FROM_PK2) {
+    if (!process.env.SEND_FROM_PK || !process.env.SEND_FROM_PK2) {
         throw new Error(
-            "ENABLE_TRANSACTION_TESTS is set to true, but SEND_FROM_PK1 and SEND_FROM_PK2 are not defined."
+            "ENABLE_TRANSACTION_TESTS is set to true, but SEND_FROM_PK and SEND_FROM_PK2 are not defined."
         );
     }
 }
@@ -55,11 +66,22 @@ if (CUSTOM_RPC_TESTS.length > 0) {
     );
     testMatch = [...testMatch, ...customTestPatterns];
     testPathIgnorePatterns = testPathIgnorePatterns.filter(
-        (pattern) => !pattern.includes("rpc/custom") // Ensure custom is not ignored
+        (pattern) => !pattern.includes("rpc/custom")
     );
 }
 
-console.log("testMatch:", testMatch);
+if (UNSUPPORTED_METHODS.length > 0) {
+    console.log("Ignoring tests for unsupported methods:", UNSUPPORTED_METHODS.join(", "));
+
+    const unsupportedTestPatterns = UNSUPPORTED_METHODS.map((method) => {
+        const [namespace, ...methodParts] = method.split("_");
+        const methodName = methodParts.join("");
+        return `<rootDir>/rpc/${namespace}/${methodName}`;
+    });
+
+    testPathIgnorePatterns.push(...unsupportedTestPatterns);
+}
+
 console.log("testPathIgnorePatterns:", testPathIgnorePatterns);
 
 const config = {
