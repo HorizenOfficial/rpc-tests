@@ -13,9 +13,11 @@ export const deployWeth: (web3: Web3, sender: string) => Promise<string | undefi
     const nonce = await web3.eth.getTransactionCount(sender, 'pending');
     const gasPrice = await web3.eth.getGasPrice();
 
+    console.log("WETH Contract Deploy: Estimating gas...");
     const estimatedGas = await wethContract
         .deploy({ data: WETH.bytecode })
         .estimateGas({ from: sender });
+    console.log(`WETH Contract Deploy: Estimated Gas ${estimatedGas}`);
 
     try {
         // @ts-ignore
@@ -45,12 +47,15 @@ export const deployTokenContracts: (web3: Web3, sender: string) =>
         const nonceA = await web3.eth.getTransactionCount(sender, 'pending');
         const gasPrice = await web3.eth.getGasPrice();
 
+        console.log(`UniSwap TokenA Deploy: Estimating gas...`);
         // @ts-ignore
         const estimatedGasA = await tokenA.deploy({
             data: ERC20.bytecode,
             arguments: [ fullNameA, shortNameA, "9999999999999999999", sender ]
         }).estimateGas();
+        console.log(`UniSwap TokenA Deploy: Estimated gas ${estimatedGasA}`);
 
+        console.log(`UniSwap TokenA Deploy: Deploying...`);
         // @ts-ignore
         tokenA = await tokenA.deploy({
             data: ERC20.bytecode,
@@ -61,6 +66,7 @@ export const deployTokenContracts: (web3: Web3, sender: string) =>
 
         const nonceB = await web3.eth.getTransactionCount(sender, 'pending');
 
+        console.log(`UniSwap TokenB Deploy: Deploying...`);
         // @ts-ignore
         tokenB = await tokenB.deploy({
             data: ERC20.bytecode,
@@ -110,11 +116,14 @@ export const deployFactory = async (web3: Web3, sender: string): Promise<string 
         const nonce = await web3.eth.getTransactionCount(sender, 'pending');
         const gasPrice = await web3.eth.getGasPrice();
 
+        console.log("UniSwap Factory Deploy: Estimating gas...");
         // @ts-ignore
         const estimatedGas = await factory
             .deploy({ data: Factory.bytecode, arguments: [sender] })
             .estimateGas({ from: sender });
+        console.log(`UniSwap Factory Deploy: Estimated gas ${estimatedGas}`);
 
+        console.log("UniSwap Factory Deploy: Deploying...");
         // @ts-ignore
         factory = await factory
             .deploy({ data: Factory.bytecode, arguments: [sender] })
