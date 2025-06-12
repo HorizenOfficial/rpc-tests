@@ -6,7 +6,6 @@
   "main": "index",
   "scripts": {
     "test-local": "cp .env.local .env && jest --config=jest.config.local.js",
-    "test-pregobi": "cp .env.pregobi .env && jest --config=jest.config.pregobi.js",
     "test-gobi": "cp .env.gobi .env && jest --config=jest.config.gobi.js",
     "test-eon": "cp .env.eon .env && jest --config=jest.config.eon.js --testPathIgnorePatterns \"transaction|debug\""
   },

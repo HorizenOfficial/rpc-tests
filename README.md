@@ -46,7 +46,6 @@ To run EOA to EOA test:
 To run the tests, ensure .env files exist then execute one of:
 
     npm run test-local
-    npm run test-pregobi
     npm run test-gobi
     npm run test-eon
 
