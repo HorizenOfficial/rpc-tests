@@ -12,7 +12,6 @@ cache:
 
 env:
   - TEST_ENV=eon
-  - TEST_ENV=gobi
 
 before_install:
   - git submodule add --force https://github.com/ethereum/execution-apis.git
@@ -27,10 +26,6 @@ script:
   - >
     if [ "$TEST_ENV" = "local" ]; then 
       TEST_OUTPUT=$(docker run -e TEST_ENV=local -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
-    fi
-  - >
-    if [ "$TEST_ENV" = "gobi" ]; then 
-      TEST_OUTPUT=$(docker run -e TEST_ENV=gobi -e SEND_FROM_PK=$SEND_FROM_PK -e SEND_FROM_PK2=$SEND_FROM_PK2 -e SEND_FROM_PK2=$SEND_FROM_PK2 -e RPC_USERNAME=$RPC_USERNAME -e RPC_PASSWORD=$RPC_PASSWORD -v $(pwd):/usr/src/app -v $(pwd)/reports:/usr/src/app/reports rpc-tests npm run test 2>&1);
     fi
   - >
     if [ "$TEST_ENV" = "eon" ]; then 
