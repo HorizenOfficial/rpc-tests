@@ -16,7 +16,7 @@ Issue the following commands:
     git submodule add --force git@github.com:ethereum/execution-apis.git;
     git submodule update --init;
     npm install;
-    cp .env.gobi .env;
+    cp .env;
 
 ### Adding new environment
 
@@ -37,7 +37,7 @@ To run the tests, ensure a .env file exists that matches the TEST_ENV passed in 
 ### Running with Docker
 
     docker build -t rpc-tests .
-    docker run -v $(pwd)/reports:/usr/src/app/reports -e TEST_ENV=gobi rpc-tests npm run test
+    docker run -v $(pwd)/reports:/usr/src/app/reports -e TEST_ENV=eon rpc-tests npm run test
 
 ### Running Custom Tests
 
